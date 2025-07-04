@@ -13,26 +13,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String
-  tasks Task[]
+model Videojuego {
+  id                  Int                   @id @default(autoincrement())
+  titulo              String
+  descripcion         String
+  anio_lanzamiento    String
+  plataforma          Plataforma?           @relation(fields: [plataformaId], references: [id])
+  plataformaId        Int?
+  genero              Genero?               @relation(fields: [generoId], references: [id])
+  generoId            Int?
+  multijugador        Boolean               @default(false)
+  calificacion        Int
+  compania_videojuego Compania_Videojuego[]
 }
 
-model Category {
-  id    Int    @id @default(autoincrement())
-  name  String
-  tasks Task[]
+model Plataforma {
+  id         Int          @id @default(autoincrement())
+  nombre     String
+  videojuego Videojuego[]
 }
 
-model Task {
-  id          Int       @id @default(autoincrement())
-  title       String
-  description String
-  completed   Boolean   @default(false)
-  user        User?     @relation(fields: [userId], references: [id])
-  userId      Int?
-  category    Category? @relation(fields: [categoryId], references: [id])
-  categoryId  Int?
+model Genero {
+  id         Int          @id @default(autoincrement())
+  nombre     String
+  videojuego Videojuego[]
+}
+
+model Rol {
+  id                  Int                   @id @default(autoincrement())
+  nombre              String
+  compania_videojuego Compania_Videojuego[]
+}
+
+model Compania_Videojuego {
+  id Int @id @default(autoincrement())
+
+  rol          Rol?        @relation(fields: [rolId], references: [id])
+  rolId        Int?
+  videojuego   Videojuego? @relation(fields: [videojuegoId], references: [id])
+  videojuegoId Int?
+  compania     Compania?   @relation(fields: [companiaId], references: [id])
+  companiaId   Int?
+}
+
+model Compania {
+  id                  Int                   @id @default(autoincrement())
+  nombre              String
+  pais                Pais?                 @relation(fields: [paisId], references: [id])
+  paisId              Int?
+  compania_videojuego Compania_Videojuego[]
+}
+
+model Pais {
+  id       Int        @id @default(autoincrement())
+  nombre   String
+  compania Compania[]
 }
