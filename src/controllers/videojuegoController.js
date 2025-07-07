@@ -62,7 +62,7 @@ export const updateVideojuego = async (req, res) => {
 
     res.json(videojuegoActualizado);
   } catch (error) {
-    res.status(400).json({ error: "Error al actualizar el videojuego" });
+    res.status(400).json({ error: error });
   }
 };
 
