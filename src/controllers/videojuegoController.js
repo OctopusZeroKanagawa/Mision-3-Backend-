@@ -46,6 +46,8 @@ export const updateVideojuego = async (req, res) => {
   const { id } = req.params;
   const { titulo, descripcion, anio_lanzamiento, plataformaId, generoId, multijugador, calificacion } = req.body;
 
+  console.log(titulo, descripcion, anio_lanzamiento, plataformaId, generoId, multijugador, calificacion )
+
   try {
     const videojuegoActualizado = await prisma.videojuego.update({
       where: { id: Number(id) },
